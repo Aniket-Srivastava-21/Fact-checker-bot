@@ -24,9 +24,6 @@ def embed_node(state: FactCheckState) -> FactCheckState:
     print(f"Input claim: {claim}")
 
     embedding = embed_text(claim)
-    # print(f"Embedding: {embedding}")
-
-    retrieve_similar_claims(embedding)
 
     return {'messages': [HumanMessage(content=VERIFY_PROMPT.format(claim=claim))], 'embedding': embedding}
 
@@ -34,10 +31,6 @@ def cache_lookup(state: FactCheckState) -> FactCheckState:
     print("Checking cache...")
 
     retrieved = retrieve_similar_claims(state['embedding'])
-
-    # cache_hit = False
-
-    print(f"Retrieved: {retrieved}")
 
     if retrieved and llm_decide_reuse(state['claim'], retrieved):
         print("Cache hit!")
@@ -84,16 +77,11 @@ def formatting_node(state: FactCheckState) -> FactCheckState:
                 Respond in the following format:
                 {LLMResponse.model_json_schema()}
             """
-    
-    # print(f"Prompt: {prompt}")
 
     structured_response: LLMResponse = structured_llm.invoke(prompt)
 
-    # print(f"Structured Output: {structured_response}")
-
     final_response = get_final_response_with_structured_output(structured_response)
     
-    # Return into a separate key in state, or overwrite messages
     return {
             'messages': [final_response], 
             'confidence': structured_response.confidence, 

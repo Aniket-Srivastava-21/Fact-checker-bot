@@ -63,7 +63,11 @@ def llm_decide_reuse(new_claim, retrieved):
 
             """
 
-    prompt += get_retrieved_data(retrieved)
+    retrieved_data = get_retrieved_data(retrieved)
+
+    print(f"Retrieved data: {retrieved_data}")
+
+    prompt += retrieved_data
 
     prompt += """
             Question:
@@ -78,6 +82,8 @@ def llm_decide_reuse(new_claim, retrieved):
         messages=[{"role": "user", "content": prompt}]
     )
 
-    print(f"LLM Reuse Decision: {resp.choices[0].message.content.strip()}")
+    llm_decision = resp.choices[0].message.content.strip()
 
-    return resp.choices[0].message.content.strip() == "YES"
+    print(f"LLM Reuse Decision: {llm_decision}")
+
+    return llm_decision == "YES"

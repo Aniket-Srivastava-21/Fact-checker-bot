@@ -23,8 +23,6 @@ def wikipedia_tool(page: str, detail: str = "summary") -> str:
     
     """
 
-    # print("Wikipedia tool working...")
-
     if detail == "full":
         return wikipedia.page(page, auto_suggest=False).content
     else:

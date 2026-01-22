@@ -25,8 +25,6 @@ def cache_router(state) -> Literal['reuse_verdict_node', 'verify_claim']:
 def custom_router(state: FactCheckState):
     # Check if the LLM called a tool
     route = tools_condition(state)
-
-    # print(f"Route: {route}")
     
     # tools_condition returns "__end__" if no tools were called
     if route == "__end__":
@@ -66,7 +64,6 @@ def build_graph():
     graph.add_edge('reuse_verdict_node', END)
     graph.add_edge('store_record', END)
 
-    # Compile the Graph with the checkpointer
     chatbot = graph.compile()
 
     return chatbot
