@@ -1,0 +1,12 @@
+langchain
+langchain-openai
+langchain-community
+langgraph
+langsmith
+qdrant-client
+openai
+wikipedia
+google-search-results
+python-dotenv
+pydantic
+datasets
